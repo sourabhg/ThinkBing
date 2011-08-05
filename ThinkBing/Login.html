@@ -1,0 +1,19 @@
+<html>
+  <body>
+    <?php if ($cookie) { ?>
+      Your user ID is <?= $cookie['uid'] ?>
+    <?php } else { ?>
+      <fb:login-button>Think Binghamton</fb:login-button>
+    <?php } ?>
+
+    <div id="fb-root"></div>
+    <script src="http://connect.facebook.net/en_US/all.js"></script>
+    <script>
+      FB.init({appId: '108635402526995', xfbml: true, cookie: true});
+      FB.Event.subscribe('auth.login', function(response) {
+        // Reload the application in the logged-in state
+        window.top.location = 'http://apps.facebook.com/thinkbing/';
+      });
+    </script>
+  </body>
+</html>

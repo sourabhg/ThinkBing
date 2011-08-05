@@ -1,0 +1,73 @@
+<?php
+
+require '../src/facebook.php';
+
+// Create our Application instance (replace this with your appId and secret).
+$facebook = new Facebook(array(
+  'appId'  => '108635402526995',
+  'secret' => '3f5d6411e89258afe37cecb8e39a0f79',
+  'cookie' => true,
+));
+
+$session = $facebook->getSession();
+
+$me = null;
+// Session based API call.
+if ($session) {
+  try {
+    $uid = $facebook->getUser();
+  } catch (FacebookApiException $e) {
+    error_log($e);
+  }
+}
+$logoutUrl = $facebook->getLogoutUrl();
+if ($uid) {
+  $logoutUrl = $facebook->getLogoutUrl();
+  echo('<html>
+<head>
+<title>Think Binghamton Test Page</title>
+<style type="text/css">
+body
+{
+background-color:#616D7E;
+}
+</style>
+
+</head>
+<body>
+<img border="0" src="logo-think.gif" alt="Pulpit rock" width="317" height="69" />
+<h1>Think Binghamton Advocacy</h1>
+<form method="post" action="select.php">
+    Enter State and/or Zip code
+	<table cellpadding="1" border="0">
+		<tr>
+		<td>State</td>
+		<td><input type="state" id="state" name="state" value="" /></td>
+		<td>Zip </td>
+		<td><input type="zip"  id="senate" name="zip" value="" /></td>
+		</tr>
+		<td>&nbsp; </td>
+		<td><input type="submit" value="Find Your Senator" /></td>
+		</tr>
+	</table>
+ </form>
+<?php if ($uid): ?>
+    <a href="<?php echo $logoutUrl; ?>"><img src="http://static.ak.fbcdn.net/rsrc.php/z2Y31/hash/cxrz4k7j.gif"></a>
+    <?php endif ?>
+</body>
+</html> ');
+} else {
+  $loginUrl = $facebook->getLoginUrl();
+}
+?>
+<script>
+	  var user = '<?php echo $logoutUrl ?>';
+       alert(user);
+	   //alert('<?php echo $logoutUrl ?>');
+	  /*if(user!=''){
+	    window.location = "http://research.binghamton.edu/RAD/students/FacebookTest/facebook-php-sdk/examples/addbunumber.php";
+	  } else {
+	    window.location = "http://research.binghamton.edu/RAD/students/FacebookTest/facebook-php-sdk/examples/";
+	  }*/
+    </script>
+
